@@ -22,7 +22,7 @@ To download one, use the /download/{SOFTWARE}/{VERSION}/{BUILD}.
 To grab the latest paper .jar download:
 
 `
-GET https://mc-srv-dl-api.pingwinco.xyz/download/paper/latest/latest
+GET https://jar.setup.md/download/paper/latest/latest
 `
 
 This will redirect you to the .jar file.
@@ -30,10 +30,8 @@ This will redirect you to the .jar file.
 To grab the latest vanilla server.jar download link: (no build parameter required)
 
 `
-GET https://mc-srv-dl-api.pingwinco.xyz/download/vanilla/latest
+GET https://jar.setup.md/download/vanilla/latest
 `
 
-Please consider donating: https://www.paypal.com/donate/?hosted_button_id=Z43BFTB2UDSHQ
-
-**This code goes by the Code Credit License, included in the LICENSE.md file. Made by Aleksander Wegrzyn (or polish-penguin-dev)**
+**This code goes by the Code Credit License, included in the LICENSE.md file. Original author: Aleksander Wegrzyn (or polish-penguin-dev). Modified by setup.md team to work in Cloudflare Workers**
 
