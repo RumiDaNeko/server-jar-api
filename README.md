@@ -17,13 +17,14 @@ All commands are run from the root of the project, from a terminal:
 
 | Command                   | Action                                           |
 | :------------------------ | :----------------------------------------------- |
-| `GET https://jar.setup.md/download/{SOFTWARE}/{VERSION}/{BUILD}`           | Required syntax to use the API`          |
+| `GET https://jar.setup.md/download/{SOFTWARE}/{VERSION}/{BUILD}`           | Required syntax to use the API          |
 | `GET https://jar.setup.md/download/paper/latest/latest`             | Downloads the latest available PaperMC build                            |
 | `GET https://jar.setup.md/download/vanilla/latest`             | Downloads the latest available Vanilla jar (no build parameter required)      |
 
 
 ## 🙏 Thanks to all Contributors
 Thanks a lot for spending your time in helping setup.md grow. Thanks a lot! ❤️
+
  <a href = "https://github.com/setupmd/docs/graphs/contributors">
    <img src = "https://contrib.rocks/image?repo=setupmd/mc-jar-api" alt="Contributors to setup.md jar API"/>
  </a>
