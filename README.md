@@ -26,13 +26,13 @@ All commands are run from the root of the project, from a terminal:
 Thanks a lot for spending your time in helping setup.md grow. Thanks a lot! ❤️
 
  <a href = "https://github.com/setupmd/docs/graphs/contributors">
-   <img src = "https://contrib.rocks/image?repo=setupmd/mc-jar-api" alt="Contributors to setup.md jar API"/>
+   <img src = "https://contrib.rocks/image?repo=setupmd/Server-jar-API" alt="Contributors to setup.md jar API"/>
  </a>
 
 ## 📑 License
-Licensed under [MIT](https://github.com/setupmd/docs/blob/master/LICENSE).
+Licensed under [Code Credit License](https://github.com/setupmd/Server-jar-API?tab=License-1-ov-file).
 
-**This code goes by the Code Credit License, included in the LICENSE.md file. Original author: Aleksander Wegrzyn (or polish-penguin-dev). Modified by setup.md team to work in Cloudflare Workers**
+**Original author: Aleksander Wegrzyn (or polish-penguin-dev). Modified by setup.md team to work in Cloudflare Workers**
 
 ## ⭐️ One more thing
 
