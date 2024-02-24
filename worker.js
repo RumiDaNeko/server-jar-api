@@ -102,21 +102,15 @@ async function handleVanilla(version) {
 
 async function handlePurpur(version, build) {
   if (!build) {
-    return new Response(JSON.stringify({ error: true, message: "Build parameter is required for purpur." }), { status: 400 });
+    return new Response(JSON.stringify({ error: true, message: "Build parameter is required for Purpur." }), { status: 400 });
   }
 
-  const purpurData = await fetch(`https://api.purpurmc.org/v2/purpur/${version}/${build}`).then(res => res.json());
+  const purpurDownloadLink = `https://api.purpurmc.org/v2/purpur/${version}/${build}/download`;
 
-  if (purpurData.error) {
-    return new Response(JSON.stringify({ error: true, message: purpurData.error }), { status: 400 });
-  }
-
-  if (!purpurData.download) {
-    return new Response(JSON.stringify({ error: true, message: "Invalid build." }), { status: 400 });
-  }
-
-  return Response.redirect(purpurData.download, 302);
+  return Response.redirect(purpurDownloadLink, 302);
 }
+
+
 
 async function handlePaper(version, build) {
   const paperBuilds = await fetch(`https://api.papermc.io/v2/projects/paper/versions/${version}/builds`).then(res => res.json());
