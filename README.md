@@ -1,37 +1,38 @@
-# Minecraft Server Download/Software API
+# 📝 Server jar API
 
-## MC-SRV-DL-API Lets you easily download minecraft server software such as paper, purpur or vanilla all in one place.
-
-### It can be used to always get the latest server software or as a replacement for the now archived Yive's mirror.
-
-The Minecraft Server Software API let's you download server softwares with ease. As of right now, these are:
+The setup.md jar API lets download the most common server platforms from a single location. Currently the API supports the following platforms:
 
 - 📜Paper
 - 🎶Purpur
 - 🎉Vanilla
-- 🗿MohistMc
 
-Some of the other server softwares that are planned to be added:
+## 👨‍💻 Contributing
 
-- 🌟Glowstone
-- 🔥Magma
-- 👖Fabric
+- Contributions make the open source community such an amazing place to learn, inspire, and create.
+- Any contributions you make are **truly appreciated** and we aim to share our progress with the original developers.
 
-To download one, use the /download/{SOFTWARE}/{VERSION}/{BUILD}.
+## 💻 Usage
 
-To grab the latest paper .jar download:
+All commands are run from the root of the project, from a terminal:
 
-`
-GET https://jar.setup.md/download/paper/latest/latest
-`
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `GET https://jar.setup.md/download/{SOFTWARE}/{VERSION}/{BUILD}`           | Required syntax to use the API`          |
+| `GET https://jar.setup.md/download/paper/latest/latest`             | Downloads the latest available PaperMC build                            |
+| `GET https://jar.setup.md/download/vanilla/latest`             | Downloads the latest available Vanilla jar (no build parameter required)      |
 
-This will redirect you to the .jar file.
 
-To grab the latest vanilla server.jar download link: (no build parameter required)
+## 🙏 Thanks to all Contributors
+Thanks a lot for spending your time in helping setup.md grow. Thanks a lot! ❤️
+ <a href = "https://github.com/setupmd/docs/graphs/contributors">
+   <img src = "https://contrib.rocks/image?repo=setupmd/mc-jar-api" alt="Contributors to setup.md jar API"/>
+ </a>
 
-`
-GET https://jar.setup.md/download/vanilla/latest
-`
+## 📑 License
+Licensed under [MIT](https://github.com/setupmd/docs/blob/master/LICENSE).
 
 **This code goes by the Code Credit License, included in the LICENSE.md file. Original author: Aleksander Wegrzyn (or polish-penguin-dev). Modified by setup.md team to work in Cloudflare Workers**
 
+## ⭐️ One more thing
+
+Don't forget to leave us a star ⭐️
