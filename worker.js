@@ -2,7 +2,6 @@
   Made by Aleksander Wegrzyn under the Code Credit License.
   Modified by setup.md to work in Cloudflare Workers
 */
-
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
@@ -100,14 +99,30 @@ async function handleVanilla(version) {
   return Response.redirect(data.downloads.server.url, 302);
 }
 
+/* WORKING
 async function handlePurpur(version, build) {
   if (!build) {
     return new Response(JSON.stringify({ error: true, message: "Build parameter is required for Purpur." }), { status: 400 });
   }
 
-  const purpurDownloadLink = `https://api.purpurmc.org/v2/purpur/${version}/${build}/download`;
+  const purpurData = `https://api.purpurmc.org/v2/purpur/${version}/${build}/download`;
 
-  return Response.redirect(purpurDownloadLink, 302);
+  return Response.redirect(purpurData, 302);
+} */
+
+async function handlePurpur(version, build) {
+  if (!build) {
+    return new Response(JSON.stringify({ error: true, message: "Build parameter is required for Purpur." }), { status: 400 });
+  }
+
+  const purpurData = await fetch(`https://api.purpurmc.org/v2/purpur/${version}/${build}`).then(res => res.json());;
+  if (purpurData.error) {
+    return new Response(JSON.stringify({ error: true, message: purpurData.error }), { status: 400 });
+  }
+
+  const purpurRedir = `https://api.purpurmc.org/v2/purpur/${version}/${build}/download`;
+
+  return Response.redirect(purpurRedir, 302);
 }
 
 
@@ -142,4 +157,3 @@ async function handleMohist(version) {
 
   return Response.redirect(mohistData.url, 302);
 }
-
