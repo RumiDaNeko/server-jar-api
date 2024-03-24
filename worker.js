@@ -1,3 +1,8 @@
+/*
+  Made by Aleksander Wegrzyn under the Code Credit License.
+  Modified by setup.md to work in Cloudflare Workers
+*/
+
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
@@ -25,7 +30,7 @@ async function handleRequest(request) {
             versionToUse = await getLatestVanillaVersion();
             break;
           case "bedrock":
-            versionToUse = await getLatestBedrockVersion();
+            versionToUse = await getLatestVanillaVersion();
             break;
           case "purpur":
             versionToUse = await getLatestPurpurVersion();
@@ -70,6 +75,14 @@ async function getLatestVanillaVersion() {
   return versionManifest.latest.release;
 }
 
+/* BEDROCK 
+
+This is still a WIP, due to worker limitations
+
+*/
+
+
+
 /* PURPUR */
 
 async function getLatestPurpurVersion() {
@@ -110,7 +123,7 @@ async function handleVanilla(version) {
   return Response.redirect(data.downloads.server.url, 302);
 }
 
-/* BEDROCK */
+/* BEDROCK 
 
 async function handleBedrock(version) {
   const bedrockData = await fetch(`https://minecraft.azureedge.net/bin-linux/bedrock-server-${version}.zip`);
@@ -121,6 +134,28 @@ async function handleBedrock(version) {
 
   return Response.redirect(bedrockData.url, 302);
 }
+
+*/
+
+async function handleBedrock(version) {
+  if (version.toLowerCase() === 'latest') {
+
+    return new Response(JSON.stringify({ error: true, message: 'You cannot currently specify "latest" as a version number for Bedrock. Please specify an actual version number.' }), { status: 400 });
+
+  } else {
+
+    const bedrockDataResponse = await fetch(`https://minecraft.azureedge.net/bin-linux/bedrock-server-${version}.zip`);
+
+    if (!bedrockDataResponse.ok) {
+
+      return new Response(JSON.stringify({ error: true, message: 'Please specify a valid build number for Bedrock edition.' }), { status: 404 });
+    }
+
+    return Response.redirect(bedrockDataResponse.url, 302);
+  }
+}
+
+
 
 /* PURPUR */
 
