@@ -1,18 +1,14 @@
-/*
-  Made by Aleksander Wegrzyn under the Code Credit License.
-  Modified by setup.md to work in Cloudflare Workers
-*/
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
 
-const VALID_SOFTWARES = ["vanilla", "paper", "purpur", "mohistmc"];
+const VALID_SOFTWARES = ["vanilla", "bedrock", "paper", "purpur", "mohistmc"];
 
 async function handleRequest(request) {
   const { pathname, searchParams } = new URL(request.url);
 
   if (pathname === "/") {
-    return Response.redirect("https://setup.md", 301);
+    return Response.redirect("https://setup.md/service/jar-api", 301);
   }
 
   if (pathname.startsWith("/download/")) {
@@ -27,6 +23,9 @@ async function handleRequest(request) {
         switch (software) {
           case "vanilla":
             versionToUse = await getLatestVanillaVersion();
+            break;
+          case "bedrock":
+            versionToUse = await getLatestBedrockVersion();
             break;
           case "purpur":
             versionToUse = await getLatestPurpurVersion();
@@ -46,6 +45,8 @@ async function handleRequest(request) {
     switch (software) {
       case "vanilla":
         return handleVanilla(versionToUse);
+      case "bedrock":
+        return handleBedrock(versionToUse);
       case "purpur":
         return handlePurpur(versionToUse, build);
       case "paper":
@@ -58,6 +59,7 @@ async function handleRequest(request) {
   return new Response(null, { status: 404 });
 }
 
+/* VANILLA */
 async function getVersionManifest() {
   const response = await fetch("https://launchermeta.mojang.com/mc/game/version_manifest.json");
   return await response.json();
@@ -68,11 +70,15 @@ async function getLatestVanillaVersion() {
   return versionManifest.latest.release;
 }
 
+/* PURPUR */
+
 async function getLatestPurpurVersion() {
   const response = await fetch("https://api.purpurmc.org/v2/purpur/");
   const data = await response.json();
   return data.versions[data.versions.length - 1];
 }
+
+/* PAPER */
 
 async function getLatestPaperVersion() {
   const response = await fetch("https://api.papermc.io/v2/projects/paper");
@@ -80,12 +86,17 @@ async function getLatestPaperVersion() {
   return data.versions[data.versions.length - 1];
 }
 
+/* MOHIST */
+
 async function getLatestMohistVersion() {
   const response = await fetch("https://mohistmc.com/api/versions");
   const versions = await response.json();
   return versions[versions.length - 1];
 }
 
+/* DOWNLOAD JAR */
+
+/* VANILLA */
 async function handleVanilla(version) {
   const versionManifest = await getVersionManifest();
   const vanillaVersion = versionManifest.versions.find(v => v.id === version);
@@ -99,16 +110,19 @@ async function handleVanilla(version) {
   return Response.redirect(data.downloads.server.url, 302);
 }
 
-/* WORKING
-async function handlePurpur(version, build) {
-  if (!build) {
-    return new Response(JSON.stringify({ error: true, message: "Build parameter is required for Purpur." }), { status: 400 });
+/* BEDROCK */
+
+async function handleBedrock(version) {
+  const bedrockData = await fetch(`https://minecraft.azureedge.net/bin-linux/bedrock-server-${version}.zip`);
+
+  if (bedrockData.error) {
+    return new Response(JSON.stringify({ error: true, message: bedrockData.error }), { status: 400 });
   }
 
-  const purpurData = `https://api.purpurmc.org/v2/purpur/${version}/${build}/download`;
+  return Response.redirect(bedrockData.url, 302);
+}
 
-  return Response.redirect(purpurData, 302);
-} */
+/* PURPUR */
 
 async function handlePurpur(version, build) {
   if (!build) {
