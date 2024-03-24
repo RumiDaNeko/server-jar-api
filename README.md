@@ -3,6 +3,8 @@
 The setup.md jar API lets download the most common server platforms from a single location. Currently the API supports the following platforms:
 
 - Paper
+- Waterfall
+- Velocity
 - Purpur
 - Bedrock (Vanilla) - *PARTIAL*
 - Vanilla (Java)
@@ -18,11 +20,8 @@ All commands are run from the root of the project, from a terminal:
 
 | Command                   | Action                                           |
 | :------------------------ | :----------------------------------------------- |
-| `GET https://jar.smd.gg/download/{SOFTWARE}/{VERSION}/{BUILD}`           | Required syntax to use the API          |
-| `GET https://jar.smd.gg/download/paper/latest/latest`             | Downloads the latest available PaperMC build                            |
-| `GET https://jar.smd.gg/download/purpur/latest/latest`             | Downloads the latest available PaperMC build                            |
-| `GET https://jar.smd.gg/download/vanilla/latest`             | Downloads the latest available Vanilla jar (no build parameter required)      |
-| `GET https://jar.smd.gg/download/bedrock/{version}`             | Downloads the specified Bedrock build (no 'latest' alias support at this time      |
+| `GET https://jar.smd.gg/download/{SOFTWARE}/{VERSION}/{BUILD}`           | Required syntax to use the API for most platforms          |
+| `GET https://jar.smd.gg/download/{SOFTWARE}/{VERSION}`             | Downloads the latest available files from Microsoft for either Java / Bedrock (no build params required)      |
 
 
 ## 🙏 Thanks to all Contributors
