@@ -7,7 +7,7 @@ addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
 
-const VALID_SOFTWARES = ["vanilla", "bedrock", "paper", "purpur", "mohistmc"];
+const VALID_SOFTWARES = ["vanilla", "bedrock", "paper", "waterfall", "velocity", "purpur", "mohistmc"];
 
 async function handleRequest(request) {
   const { pathname, searchParams } = new URL(request.url);
@@ -38,6 +38,12 @@ async function handleRequest(request) {
           case "paper":
             versionToUse = await getLatestPaperVersion();
             break;
+          case "waterfall":
+            versionToUse = await getLatestWaterfallVersion();
+            break;
+          case "velocity":
+            versionToUse = await getLatestVelocityVersion();
+            break;
           case "mohistmc":
             versionToUse = await getLatestMohistVersion();
             break;
@@ -56,6 +62,10 @@ async function handleRequest(request) {
         return handlePurpur(versionToUse, build);
       case "paper":
         return handlePaper(versionToUse, build);
+      case "waterfall":
+        return handleWaterfall(versionToUse, build);
+      case "velocity":
+        return handleVelocity(versionToUse, build);
       case "mohistmc":
         return handleMohist(versionToUse);
     }
@@ -95,6 +105,22 @@ async function getLatestPurpurVersion() {
 
 async function getLatestPaperVersion() {
   const response = await fetch("https://api.papermc.io/v2/projects/paper");
+  const data = await response.json();
+  return data.versions[data.versions.length - 1];
+}
+
+/* WATERFALL */
+
+async function getLatestWaterfallVersion() {
+  const response = await fetch("https://api.papermc.io/v2/projects/waterfall");
+  const data = await response.json();
+  return data.versions[data.versions.length - 1];
+}
+
+/* VELOCITY */
+
+async function getLatestVelocityVersion() {
+  const response = await fetch("https://api.papermc.io/v2/projects/velocity");
   const data = await response.json();
   return data.versions[data.versions.length - 1];
 }
@@ -174,7 +200,7 @@ async function handlePurpur(version, build) {
   return Response.redirect(purpurRedir, 302);
 }
 
-
+/* PAPER */
 
 async function handlePaper(version, build) {
   const paperBuilds = await fetch(`https://api.papermc.io/v2/projects/paper/versions/${version}/builds`).then(res => res.json());
@@ -196,6 +222,54 @@ async function handlePaper(version, build) {
   let filename = finalBuild.downloads.application.name;
   return Response.redirect(`https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${finalBuild.build}/downloads/${filename}`, 302);
 }
+
+/* WATERFALL */
+
+async function handleWaterfall(version, build) {
+  const waterfallBuilds = await fetch(`https://api.papermc.io/v2/projects/waterfall/versions/${version}/builds`).then(res => res.json());
+
+  if (waterfallBuilds.error) {
+    return new Response(JSON.stringify({ error: true, message: waterfallBuilds.error }), { status: 400 });
+  }
+
+  let finalBuild;
+  if (build === "latest") {
+    finalBuild = waterfallBuilds.builds[waterfallBuilds.builds.length - 1];
+  } else {
+    finalBuild = waterfallBuilds.builds.find(b => b.build === build);
+    if (!finalBuild) {
+      return new Response(JSON.stringify({ error: true, message: "Invalid build." }), { status: 400 });
+    }
+  }
+
+  let filename = finalBuild.downloads.application.name;
+  return Response.redirect(`https://api.papermc.io/v2/projects/waterfall/versions/${version}/builds/${finalBuild.build}/downloads/${filename}`, 302);
+}
+
+/* VELOCITY */
+
+async function handleWaterfall(version, build) {
+  const waterfallBuilds = await fetch(`https://api.papermc.io/v2/projects/velocity/versions/${version}/builds`).then(res => res.json());
+
+  if (waterfallBuilds.error) {
+    return new Response(JSON.stringify({ error: true, message: waterfallBuilds.error }), { status: 400 });
+  }
+
+  let finalBuild;
+  if (build === "latest") {
+    finalBuild = waterfallBuilds.builds[waterfallBuilds.builds.length - 1];
+  } else {
+    finalBuild = waterfallBuilds.builds.find(b => b.build === build);
+    if (!finalBuild) {
+      return new Response(JSON.stringify({ error: true, message: "Invalid build." }), { status: 400 });
+    }
+  }
+
+  let filename = finalBuild.downloads.application.name;
+  return Response.redirect(`https://api.papermc.io/v2/projects/velocity/versions/${version}/builds/${finalBuild.build}/downloads/${filename}`, 302);
+}
+
+/* MOHIST */
 
 async function handleMohist(version) {
   const mohistData = await fetch(`https://mohistmc.com/api/${version}/latest`).then(res => res.json());
