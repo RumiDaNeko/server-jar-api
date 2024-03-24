@@ -248,18 +248,18 @@ async function handleWaterfall(version, build) {
 
 /* VELOCITY */
 
-async function handleWaterfall(version, build) {
-  const waterfallBuilds = await fetch(`https://api.papermc.io/v2/projects/velocity/versions/${version}/builds`).then(res => res.json());
+async function handleVelocity(version, build) {
+  const velocityBuilds = await fetch(`https://api.papermc.io/v2/projects/velocity/versions/${version}/builds`).then(res => res.json());
 
-  if (waterfallBuilds.error) {
-    return new Response(JSON.stringify({ error: true, message: waterfallBuilds.error }), { status: 400 });
+  if (velocityBuilds.error) {
+    return new Response(JSON.stringify({ error: true, message: velocityBuilds.error }), { status: 400 });
   }
 
   let finalBuild;
   if (build === "latest") {
-    finalBuild = waterfallBuilds.builds[waterfallBuilds.builds.length - 1];
+    finalBuild = velocityBuilds.builds[velocityBuilds.builds.length - 1];
   } else {
-    finalBuild = waterfallBuilds.builds.find(b => b.build === build);
+    finalBuild = velocityBuilds.builds.find(b => b.build === build);
     if (!finalBuild) {
       return new Response(JSON.stringify({ error: true, message: "Invalid build." }), { status: 400 });
     }
