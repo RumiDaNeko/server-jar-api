@@ -7,7 +7,7 @@ addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
 
-const VALID_SOFTWARES = ["vanilla", "bedrock", "paper", "waterfall", "velocity", "purpur", "mohistmc"];
+const VALID_SOFTWARES = ["vanilla", "bedrock", "paper", "waterfall", "velocity", "folia", "purpur", "mohistmc"];
 
 async function handleRequest(request) {
   const { pathname, searchParams } = new URL(request.url);
@@ -38,6 +38,9 @@ async function handleRequest(request) {
           case "paper":
             versionToUse = await getLatestPaperVersion();
             break;
+          case "folia":
+            versionToUse = await getLatestFoliaVersion();
+            break;
           case "waterfall":
             versionToUse = await getLatestWaterfallVersion();
             break;
@@ -64,6 +67,8 @@ async function handleRequest(request) {
         return handlePaper(versionToUse, build);
       case "waterfall":
         return handleWaterfall(versionToUse, build);
+      case "folia":
+        return handleFolia(versionToUse, build);
       case "velocity":
         return handleVelocity(versionToUse, build);
       case "mohistmc":
@@ -108,6 +113,15 @@ async function getLatestPaperVersion() {
   const data = await response.json();
   return data.versions[data.versions.length - 1];
 }
+
+/* FOLIA */
+
+async function getLatestFoliaVersion() {
+  const response = await fetch("https://api.papermc.io/v2/projects/folia");
+  const data = await response.json();
+  return data.versions[data.versions.length - 1];
+}
+
 
 /* WATERFALL */
 
@@ -221,6 +235,29 @@ async function handlePaper(version, build) {
 
   let filename = finalBuild.downloads.application.name;
   return Response.redirect(`https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${finalBuild.build}/downloads/${filename}`, 302);
+}
+
+/* FOLIA */
+
+async function handleFolia(version, build) {
+  const foliaBuilds = await fetch(`https://api.papermc.io/v2/projects/folia/versions/${version}/builds`).then(res => res.json());
+
+  if (foliaBuilds.error) {
+    return new Response(JSON.stringify({ error: true, message: foliaBuilds.error }), { status: 400 });
+  }
+
+  let finalBuild;
+  if (build === "latest") {
+    finalBuild = foliaBuilds.builds[foliaBuilds.builds.length - 1];
+  } else {
+    finalBuild = foliaBuilds.builds.find(b => b.build === build);
+    if (!finalBuild) {
+      return new Response(JSON.stringify({ error: true, message: "Invalid build." }), { status: 400 });
+    }
+  }
+
+  let filename = finalBuild.downloads.application.name;
+  return Response.redirect(`https://api.papermc.io/v2/projects/folia/versions/${version}/builds/${finalBuild.build}/downloads/${filename}`, 302);
 }
 
 /* WATERFALL */
