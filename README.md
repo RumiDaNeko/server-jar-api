@@ -3,7 +3,8 @@
 The setup.md jar API lets download the most common server platforms from a single location. Currently the API supports the following platforms:
 
 - Paper
-- Waterfall
+- Folia
+- Waterfall - *DEPRECIATED*
 - Velocity
 - Purpur
 - Bedrock (Vanilla) - *PARTIAL*
