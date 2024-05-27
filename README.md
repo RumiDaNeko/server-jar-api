@@ -33,7 +33,7 @@ Thanks a lot for spending your time in helping setup.md grow. Thanks a lot! ❤�
  </a>
 
 ## 📑 License
-Licensed under [Code Credit License](https://github.com/setupmd/server-jar-api?tab=License-1-ov-file).
+Licensed under [CC BY-NC-SA 4.0 DEED](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en).
 
 **Original author: Aleksander Wegrzyn (or polish-penguin-dev). Modified by setup.md team to work in Cloudflare Workers**
 
