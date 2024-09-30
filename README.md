@@ -21,8 +21,8 @@ All commands are run from the root of the project, from a terminal:
 
 | Command                   | Action                                           |
 | :------------------------ | :----------------------------------------------- |
-| `GET https://jar.smd.gg/download/{SOFTWARE}/{VERSION}/{BUILD}`           | Required syntax to use the API for most platforms          |
-| `GET https://jar.smd.gg/download/{SOFTWARE}/{VERSION}`             | Downloads the latest available files from Microsoft for either Java / Bedrock (no build params required)      |
+| `GET https://jar.urho.st/download/{SOFTWARE}/{VERSION}/{BUILD}`           | Required syntax to use the API for most platforms          |
+| `GET https://jar.urho.st/download/{SOFTWARE}/{VERSION}`             | Downloads the latest available files from Microsoft for either Java / Bedrock (no build params required)      |
 
 
 ## 🙏 Thanks to all Contributors
