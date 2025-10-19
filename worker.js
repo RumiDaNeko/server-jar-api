@@ -82,7 +82,7 @@ async function handleRequest(request) {
   }
 
   return new Response(null, { status: 404 });
-}
+
 
  if (pathname.startsWith("/fetchAll/")) {
    const [, , software] = pathname.split("/");
@@ -120,12 +120,8 @@ async function handleRequest(request) {
             softwaredata = await getAllFabricVersion();
             break;
         }
-        break;
-      default:
-        versionToUse = version;
     }
- }
-
+}
 /* GET ALL*/
 
 /* VANILLA */
