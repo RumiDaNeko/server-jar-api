@@ -156,7 +156,7 @@ async function getAllFabricVersion() {
   const loaderData = await fetch(`https://meta.fabricmc.net/v2/versions/loader/${stableVersions[0].version}`);
     const loaderJson = await loaderData.json();
 
-    if (!loaderJson.length) continue;
+    if (!loaderJson.length) return new Response(JSON.stringify({ error: true, message: loaderData.error }), { status: 400 });;
     const loaderVersion = loaderJson[0].loader.version;
      const fabricsuitableInstallerData = await fetch(`https://meta.fabricmc.net/v2/versions/installer`).then(res => res.json());;
   if (fabricsuitableInstallerData.error) {
