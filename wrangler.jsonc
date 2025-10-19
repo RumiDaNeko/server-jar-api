@@ -1,5 +1,5 @@
 	  {
-	    "name": "server-jar-api",
+	    "name": "jar-api",
 	    "compatibility_date": "2025-10-19",
         "main": "worker.js"
 	  }
