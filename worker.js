@@ -155,20 +155,24 @@ async function getAllFabricVersion() {
   
   const result = [];
   for (const v of stableVersions) { // limit to 3 for speed
-console.log(v)
-    console.log(v.version)
-    const loaderData = await fetch(`https://meta.fabricmc.net/v2/versions/loader/${v.version}`);
+    let version = v.version
+    console.log(version)
+    const loaderData = await fetch(`https://meta.fabricmc.net/v2/versions/loader/${version}`);
     const loaderJson = await loaderData.json();
 
     if (!loaderJson.length) continue;
     const loaderVersion = loaderJson[0].loader.version;
-    const installerVersion = loaderJson[0].installer.version;
+     const fabricsuitableInstallerData = await fetch(`https://meta.fabricmc.net/v2/versions/installer`).then(res => res.json());;
+  if (fabricsuitableInstallerData.error) {
+    return new Response(JSON.stringify({ error: true, message: fabricsuitableInstallerData.error }), { status: 400 });
+  }
+  const installerVersion = fabricsuitableInstallerData[0].version
 
-    const jarUrl = `https://meta.fabricmc.net/v2/versions/loader/${v.version}/${loaderVersion}/${installerVersion}/server/jar`;
+    const jarUrl = `https://meta.fabricmc.net/v2/versions/loader/${version}/${loaderVersion}/${installerVersion}/server/jar`;
     const fileName = await getFileNameFromUrl(jarUrl);
 
     result.push({
-      version: v.version,
+      version: version,
       file: fileName || `${v.version}.jar`,
     });
   }
