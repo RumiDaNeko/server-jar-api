@@ -152,7 +152,26 @@ async function getAllFabricVersion() {
   const response = await fetch("https://meta.fabricmc.net/v2/versions");
   const data = await response.json();
   const stableVersions = data.game.filter(v => v.stable === true);
-  return JSON.stringify(stableVersions);
+  
+  const result = [];
+  for (const v of stableVersions) { // limit to 3 for speed
+    const loaderData = await fetch(`https://meta.fabricmc.net/v2/versions/loader/${v.version}`);
+    const loaderJson = await loaderData.json();
+
+    if (!loaderJson.length) continue;
+    const loaderVersion = loaderJson[0].loader.version;
+    const installerVersion = loaderJson[0].installer.version;
+
+    const jarUrl = `https://meta.fabricmc.net/v2/versions/loader/${v.version}/${loaderVersion}/${installerVersion}/server/jar`;
+    const fileName = await getFileNameFromUrl(jarUrl);
+
+    result.push({
+      version: v.version,
+      file: fileName || `${v.version}.jar`,
+    });
+  }
+
+  return result;
 }
 
 /* PURPUR */
