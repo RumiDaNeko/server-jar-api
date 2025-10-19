@@ -7,13 +7,13 @@ addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
 
-const VALID_SOFTWARES = ["vanilla", "bedrock", "paper", "waterfall", "velocity", "folia", "purpur", "mohistmc"];
+const VALID_SOFTWARES = ["vanilla", "bedrock", "paper", "waterfall", "velocity", "folia", "purpur", "mohistmc","fabric"];
 
 async function handleRequest(request) {
   const { pathname, searchParams } = new URL(request.url);
 
   if (pathname === "/") {
-    return Response.redirect("https://setup.md/service/jar-api", 301);
+    return Response.redirect("https://cloudcode.site", 301);
   }
 
   if (pathname.startsWith("/download/")) {
@@ -50,6 +50,9 @@ async function handleRequest(request) {
           case "mohistmc":
             versionToUse = await getLatestMohistVersion();
             break;
+          case "fabric":
+            versionToUse = await getLatestFabricVersion();
+            break;
         }
         break;
       default:
@@ -73,6 +76,8 @@ async function handleRequest(request) {
         return handleVelocity(versionToUse, build);
       case "mohistmc":
         return handleMohist(versionToUse);
+      case "fabric:
+        return handleFabric(versionToUse);
     }
   }
 
@@ -96,6 +101,14 @@ This is still a WIP, due to worker limitations
 
 */
 
+/* FABRIC */
+
+async function getLatestFabricVersion() {
+  const response = await fetch("https://meta.fabricmc.net/v2/versions");
+  const data = await response.json();
+  const stableVersions = data.game.filter(v => v.stable === true);
+  return return stableVersions[0];
+}
 
 
 /* PURPUR */
@@ -196,6 +209,24 @@ async function handleBedrock(version) {
 }
 
 
+/* FABRIC */
+
+async function handleFabric(version) {
+  const fabricsuitableloaderData = await fetch(`https://meta.fabricmc.net/v2/versions/loader/${version}`).then(res => res.json());;
+    if (fabricsuitableloaderData.error) {
+    return new Response(JSON.stringify({ error: true, message: fabricsuitableloaderData.error }), { status: 400 });
+  }
+  const fabricsuitableloader = fabricsuitableloaderData[0].loader.version
+  const fabricsuitableInstallerData = await fetch(`https://meta.fabricmc.net/v2/versions/installer`).then(res => res.json());;
+  if (fabricsuitableInstallerData.error) {
+    return new Response(JSON.stringify({ error: true, message: fabricsuitableInstallerData.error }), { status: 400 });
+  }
+  const fabricsuitableInstaller = fabricsuitableInstallerData[0].version
+
+  const FabricRedir = `https://meta.fabricmc.net/v2/versions/${version}/${fabricsuitableloader}/${fabricsuitableInstaller}/server/jar`;
+
+  return Response.redirect(FabricRedir, 302);
+}
 
 /* PURPUR */
 
