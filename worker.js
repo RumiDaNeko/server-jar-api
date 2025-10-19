@@ -58,27 +58,28 @@ async function handleRequest(request) {
       default:
         versionToUse = version;
     }
-
+    let url
     switch (software) {
       case "vanilla":
-        return handleVanilla(versionToUse);
+        url =  handleVanilla(versionToUse);
       case "bedrock":
-        return handleBedrock(versionToUse);
+        url = handleBedrock(versionToUse);
       case "purpur":
-        return handlePurpur(versionToUse, build);
+        url =  handlePurpur(versionToUse, build);
       case "paper":
-        return handlePaper(versionToUse, build);
+        url =  handlePaper(versionToUse, build);
       case "waterfall":
-        return handleWaterfall(versionToUse, build);
+        url =  handleWaterfall(versionToUse, build);
       case "folia":
-        return handleFolia(versionToUse, build);
+        url =  handleFolia(versionToUse, build);
       case "velocity":
-        return handleVelocity(versionToUse, build);
+        url =  handleVelocity(versionToUse, build);
       case "mohistmc":
-        return handleMohist(versionToUse);
+        url =  handleMohist(versionToUse);
       case "fabric":
-        return handleFabric(versionToUse);
+        url =  handleFabric(versionToUse);
     }
+    Response.redirect(url,302)
   }
 
 
@@ -124,6 +125,15 @@ async function handleRequest(request) {
     return new Response(softwaredata, { status: 200 });
     }
     return new Response(null, { status: 404 });
+}
+
+async function getFileNameFromUrl(url) {
+  const res = await fetch(url, { method: "HEAD" }); // HEAD only fetches headers, no body
+  const disposition = res.headers.get("content-disposition");
+
+  if (!disposition) return null;
+  const match = disposition.match(/filename="?([^"]+)"?/);
+  return match ? match[1] : null;
 }
 /* GET ALL*/
 
@@ -268,7 +278,7 @@ async function handleVanilla(version) {
 
   const response = await fetch(vanillaVersion.url);
   const data = await response.json();
-  return Response.redirect(data.downloads.server.url, 302);
+  return data.downloads.server.url
 }
 
 /* BEDROCK 
@@ -299,7 +309,7 @@ async function handleBedrock(version) {
       return new Response(JSON.stringify({ error: true, message: 'Please specify a valid build number for Bedrock edition.' }), { status: 404 });
     }
 
-    return Response.redirect(bedrockDataResponse.url, 302);
+    return bedrockDataResponse.url
   }
 }
 
@@ -320,7 +330,7 @@ async function handleFabric(version) {
 
   const FabricRedir = `https://meta.fabricmc.net/v2/versions/${version}/${fabricsuitableloader}/${fabricsuitableInstaller}/server/jar`;
 
-  return Response.redirect(FabricRedir, 302);
+  return FabricRedir
 }
 
 /* PURPUR */
@@ -337,7 +347,7 @@ async function handlePurpur(version, build) {
 
   const purpurRedir = `https://api.purpurmc.org/v2/purpur/${version}/${build}/download`;
 
-  return Response.redirect(purpurRedir, 302);
+  return purpurRedir
 }
 
 /* PAPER */
@@ -360,7 +370,7 @@ async function handlePaper(version, build) {
   }
 
   let filename = finalBuild.downloads.application.name;
-  return Response.redirect(`https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${finalBuild.build}/downloads/${filename}`, 302);
+  return `https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${finalBuild.build}/downloads/${filename}`
 }
 
 /* FOLIA */
@@ -383,7 +393,7 @@ async function handleFolia(version, build) {
   }
 
   let filename = finalBuild.downloads.application.name;
-  return Response.redirect(`https://api.papermc.io/v2/projects/folia/versions/${version}/builds/${finalBuild.build}/downloads/${filename}`, 302);
+  return `https://api.papermc.io/v2/projects/folia/versions/${version}/builds/${finalBuild.build}/downloads/${filename}`
 }
 
 /* WATERFALL */
@@ -406,7 +416,7 @@ async function handleWaterfall(version, build) {
   }
 
   let filename = finalBuild.downloads.application.name;
-  return Response.redirect(`https://api.papermc.io/v2/projects/waterfall/versions/${version}/builds/${finalBuild.build}/downloads/${filename}`, 302);
+  return `https://api.papermc.io/v2/projects/waterfall/versions/${version}/builds/${finalBuild.build}/downloads/${filename}`
 }
 
 /* VELOCITY */
@@ -429,7 +439,7 @@ async function handleVelocity(version, build) {
   }
 
   let filename = finalBuild.downloads.application.name;
-  return Response.redirect(`https://api.papermc.io/v2/projects/velocity/versions/${version}/builds/${finalBuild.build}/downloads/${filename}`, 302);
+  return `https://api.papermc.io/v2/projects/velocity/versions/${version}/builds/${finalBuild.build}/downloads/${filename}`
 }
 
 /* MOHIST */
@@ -441,5 +451,5 @@ async function handleMohist(version) {
     return new Response(JSON.stringify({ error: true, message: mohistData.error }), { status: 400 });
   }
 
-  return Response.redirect(mohistData.url, 302);
+  return mohistData.url
 }
