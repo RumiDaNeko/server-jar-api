@@ -120,6 +120,8 @@ async function handleRequest(request) {
             softwaredata = await getAllFabricVersion();
             break;
         }
+
+    return new Response(softwaredata, { status: 200 });
     }
 }
 /* GET ALL*/
