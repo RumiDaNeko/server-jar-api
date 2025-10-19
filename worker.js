@@ -167,7 +167,7 @@ async function getAllFabricVersion() {
   for (const v of stableVersions) { // limit to 3 for speed
     let version = v.version
     console.log(version)
-    const fileName = `fabric-server-mc.${veersion}-loader.${loaderVersion}-launcher.${installerVersion}.jar`;
+    const fileName = `fabric-server-mc.${version}-loader.${loaderVersion}-launcher.${installerVersion}.jar`;
     console.log(fileName)
 
     result.push({
