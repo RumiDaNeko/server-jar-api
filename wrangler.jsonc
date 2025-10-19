@@ -1,5 +1,12 @@
 	  {
 	    "name": "jar-api",
 	    "compatibility_date": "2025-10-19",
-        "main": "worker.js"
+        "main": "worker.js",
+"observability": {
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": true
+    }
+  }
 	  }
