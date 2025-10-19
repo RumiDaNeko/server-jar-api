@@ -81,7 +81,7 @@ async function handleRequest(request) {
     }
   }
 
-  return new Response(null, { status: 404 });
+
 
 
  if (pathname.startsWith("/fetchAll/")) {
@@ -123,6 +123,7 @@ async function handleRequest(request) {
 
     return new Response(softwaredata, { status: 200 });
     }
+    return new Response(null, { status: 404 });
 }
 /* GET ALL*/
 
