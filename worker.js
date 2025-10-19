@@ -142,7 +142,7 @@ async function getAllFabricVersion() {
   const response = await fetch("https://meta.fabricmc.net/v2/versions");
   const data = await response.json();
   const stableVersions = data.game.filter(v => v.stable === true);
-  return stableVersions;
+  return JSON.stringify(stableVersions);
 }
 
 /* PURPUR */
