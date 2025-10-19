@@ -170,6 +170,7 @@ async function getAllFabricVersion() {
 
     const jarUrl = `https://meta.fabricmc.net/v2/versions/loader/${version}/${loaderVersion}/${installerVersion}/server/jar`;
     const fileName = await getFileNameFromUrl(jarUrl);
+    console.log(fileName)
 
     result.push({
       version: version,
