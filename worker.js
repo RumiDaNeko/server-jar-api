@@ -158,7 +158,7 @@ async function getAllPurpurVersion() {
 async function getAllPaperVersion() {
   const response = await fetch("https://api.papermc.io/v2/projects/paper");
   const data = await response.json();
-  return data.versions[data.versions.length - 1];
+  return data.versions;
 }
 
 /* FOLIA */
