@@ -176,7 +176,7 @@ async function getAllFabricVersion() {
     });
   }
 
-  return result;
+  return JSON.stringify({response: result});
 }
 
 /* PURPUR */
