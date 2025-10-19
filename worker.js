@@ -84,6 +84,102 @@ async function handleRequest(request) {
   return new Response(null, { status: 404 });
 }
 
+ if (pathname.startsWith("/fetchAll/")) {
+   const [, , software] = pathname.split("/");
+    if (!VALID_SOFTWARES.includes(software)) {
+      return new Response(JSON.stringify({ error: true, message: "Invalid software type." }), { status: 400 });
+    }
+
+   let softwaredata;
+        switch (software) {
+          case "vanilla":
+            softwaredata = await getAllVanillaVersion();
+            break;
+          case "bedrock":
+            softwaredata = await getAllVanillaVersion();
+            break;
+          case "purpur":
+            softwaredata = await getAllPurpurVersion();
+            break;
+          case "paper":
+            softwaredata = await getAllPaperVersion();
+            break;
+          case "folia":
+            softwaredata = await getAllFoliaVersion();
+            break;
+          case "waterfall":
+            softwaredata = await getAllWaterfallVersion();
+            break;
+          case "velocity":
+            softwaredata = await getAllVelocityVersion();
+            break;
+          case "mohistmc":
+            softwaredata = await getAllMohistVersion();
+            break;
+          case "fabric":
+            softwaredata = await getAllFabricVersion();
+            break;
+        }
+        break;
+      default:
+        versionToUse = version;
+    }
+ }
+
+/* GET ALL*/
+
+/* VANILLA */
+
+async function getAllVanilaVersion() {
+  const response = await fetch("https://launchermeta.mojang.com/mc/game/version_manifest.json");
+  const data = await response.json();
+  const stableVersions = data.game.filter(v => v.type === "release");
+  return stableVersions;
+}
+
+/* FABRIC */
+
+async function getAllFabricVersion() {
+  const response = await fetch("https://meta.fabricmc.net/v2/versions");
+  const data = await response.json();
+  const stableVersions = data.game.filter(v => v.stable === true);
+  return stableVersions;
+}
+
+/* PURPUR */
+
+async function getAllPurpurVersion() {
+  const response = await fetch("https://api.purpurmc.org/v2/purpur/");
+  const data = await response.json();
+  return data.versions;
+}
+
+/* PAPER */
+
+async function getAllPaperVersion() {
+  const response = await fetch("https://api.papermc.io/v2/projects/paper");
+  const data = await response.json();
+  return data.versions[data.versions.length - 1];
+}
+
+/* FOLIA */
+
+async function getAllFoliaVersion() {
+  const response = await fetch("https://api.papermc.io/v2/projects/folia");
+  const data = await response.json();
+  return data.versions;
+}
+
+/* MOHIST */
+
+async function getAllMohistVersion() {
+  const response = await fetch("https://mohistmc.com/api/versions");
+  const versions = await response.json();
+  return versions;
+}
+
+/* GET LATEST */
+
 /* VANILLA */
 async function getVersionManifest() {
   const response = await fetch("https://launchermeta.mojang.com/mc/game/version_manifest.json");
@@ -107,7 +203,7 @@ async function getLatestFabricVersion() {
   const response = await fetch("https://meta.fabricmc.net/v2/versions");
   const data = await response.json();
   const stableVersions = data.game.filter(v => v.stable === true);
-  return return stableVersions[0];
+  return stableVersions[0];
 }
 
 
