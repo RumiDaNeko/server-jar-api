@@ -155,6 +155,7 @@ async function getAllFabricVersion() {
   
   const result = [];
   for (const v of stableVersions) { // limit to 3 for speed
+console.log(v)
     const loaderData = await fetch(`https://meta.fabricmc.net/v2/versions/loader/${v.version}`);
     const loaderJson = await loaderData.json();
 
