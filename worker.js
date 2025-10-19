@@ -16,7 +16,7 @@ async function handleRequest(request) {
     return Response.redirect("https://cloudcode.site", 301);
   }
 
-  if (pathname.startsWith("/download/")) {
+  if (pathname.startsWith("/fetchJar/")) {
     const [, , software, version, build] = pathname.split("/");
     if (!VALID_SOFTWARES.includes(software)) {
       return new Response(JSON.stringify({ error: true, message: "Invalid software type." }), { status: 400 });
