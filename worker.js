@@ -152,12 +152,8 @@ async function getAllFabricVersion() {
   const response = await fetch("https://meta.fabricmc.net/v2/versions");
   const data = await response.json();
   const stableVersions = data.game.filter(v => v.stable === true);
-  
-  const result = [];
-  for (const v of stableVersions.slice(0,40)) { // limit to 3 for speed
-    let version = v.version
-    console.log(version)
-    const loaderData = await fetch(`https://meta.fabricmc.net/v2/versions/loader/${version}`);
+
+  const loaderData = await fetch(`https://meta.fabricmc.net/v2/versions/loader/${stableVersions[0].version}`);
     const loaderJson = await loaderData.json();
 
     if (!loaderJson.length) continue;
@@ -167,9 +163,11 @@ async function getAllFabricVersion() {
     return new Response(JSON.stringify({ error: true, message: fabricsuitableInstallerData.error }), { status: 400 });
   }
   const installerVersion = fabricsuitableInstallerData[0].version
-
-    const jarUrl = `https://meta.fabricmc.net/v2/versions/loader/${version}/${loaderVersion}/${installerVersion}/server/jar`;
-    const fileName = await getFileNameFromUrl(jarUrl);
+  const result = [];
+  for (const v of stableVersions) { // limit to 3 for speed
+    let version = v.version
+    console.log(version)
+    const fileName = `fabric-server-mc.${veersion}-loader.${loaderVersion}-launcher.${installerVersion}.jar`;
     console.log(fileName)
 
     result.push({
