@@ -154,7 +154,7 @@ async function getAllFabricVersion() {
   const stableVersions = data.game.filter(v => v.stable === true);
   
   const result = [];
-  for (const v of stableVersions.slice(0,40) { // limit to 3 for speed
+  for (const v of stableVersions.slice(0,40)) { // limit to 3 for speed
     let version = v.version
     console.log(version)
     const loaderData = await fetch(`https://meta.fabricmc.net/v2/versions/loader/${version}`);
