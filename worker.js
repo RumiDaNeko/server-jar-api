@@ -76,7 +76,7 @@ async function handleRequest(request) {
         return handleVelocity(versionToUse, build);
       case "mohistmc":
         return handleMohist(versionToUse);
-      case "fabric:
+      case "fabric":
         return handleFabric(versionToUse);
     }
   }
