@@ -139,7 +139,7 @@ async function getFileNameFromUrl(url) {
 
 /* VANILLA */
 
-async function getAllVanilaVersion() {
+async function getAllVanillaVersion() {
   const response = await fetch("https://launchermeta.mojang.com/mc/game/version_manifest.json");
   const data = await response.json();
   const stableVersions = data.game.filter(v => v.type === "release");
